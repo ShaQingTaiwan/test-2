@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沙青 ShaQing - 細沙慢磨，青出於藍 (銷售頁與問卷)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* --- 銷售網站 全域樣式 --- */
+        :root {
+            --site-primary-color: #6B8E23; /* 銷售網站主題色 */
+            --site-secondary-color: #F5F5DC; /* 銷售網站背景/輔助色 */
+            --site-accent-color: #D2B48C; /* 銷售網站點綴/按鈕 */
+            --site-text-color: #333333;
+            --site-light-text-color: #FFFFFF;
+            --site-font-family: 'Noto Sans TC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --site-heading-font: 'Noto Serif TC', 'Times New Roman', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--site-font-family);
+            line-height: 1.6;
+            color: var(--site-text-color);
+            background-color: #fdfdfa;
+        }
+
+        h1, h2, h3, h4 { /* 銷售網站標題樣式 */
+            font-family: var(--site-heading-font);
+            color: var(--site-primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* --- 銷售網站 Header & Navigation --- */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+        }
+
+        nav .logo a {
+            font-family: var(--site-heading-font);
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--site-primary-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--site-text-color);
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: var(--site-accent-color);
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--site-accent-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+        }
+        .menu-toggle .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--site-primary-color);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* --- 銷售網站 Sections --- */
+        .site-section { /* 給銷售網站的 section 一個通用 class */
+            padding: 60px 20px;
+        }
+        .site-section h2 { /* 銷售網站的 H2 標題 */
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .site-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--site-accent-color);
+        }
+
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 80px 5% 40px;
+            background-color: var(--site-secondary-color);
+            flex-wrap: wrap;
+        }
+        .hero-content {
+            max-width: 500px;
+            text-align: left;
+            animation: slideInFromLeft 1s ease-out;
+        }
+        .hero-content h1 {
+            font-size: 2.8rem;
+            color: var(--site-primary-color);
+            line-height: 1.3;
+        }
+        .hero-content h1 .highlight { color: #8FBC8F; }
+        .hero-content p { font-size: 1.1rem; margin: 20px 0 30px; color: #555; }
+        .cta-button {
+            display: inline-block;
+            background-color: var(--site-accent-color);
+            color: var(--site-light-text-color);
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .cta-button:hover { background-color: #c5a378; transform: translateY(-2px); }
+        .hero-image { max-width: 450px; animation: slideInFromRight 1s ease-out; }
+        .hero-image img { border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); max-width: 100%; height: auto;}
+
+
+        /* Features Section */
+        .features-section { background-color: #fff; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 20px; }
+        .feature-item { text-align: center; padding: 25px 20px; background-color: var(--site-secondary-color); border-radius: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .feature-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(107, 142, 35, 0.15); }
+        .feature-item i { font-size: 2.5rem; color: var(--site-primary-color); margin-bottom: 15px; }
+        .feature-item h3 { font-size: 1.3rem; color: var(--site-primary-color); }
+
+
+        /* Products Section */
+        .products-section { background-color: #f9f9f9; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .product-card { background-color: #fff; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; text-align: center; padding-bottom: 20px; transition: transform 0.3s ease; }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-card img { width: 100%; height: 250px; object-fit: cover; }
+        .product-card h3 { margin: 15px 0 10px; font-size: 1.5rem; }
+        .product-card p { padding: 0 15px; font-size: 0.95rem; color: #666; min-height: 60px; }
+        .product-cta { display: inline-block; margin-top: 15px; padding: 8px 20px; background-color: var(--site-primary-color); color: var(--site-light-text-color); border-radius: 20px; font-weight: 500; transition: background-color 0.3s ease; }
+        .product-cta:hover { background-color: #55701c; }
+
+
+        /* Story Section */
+        .story-section { display: flex; align-items: center; gap: 40px; background-color: var(--site-secondary-color); flex-wrap: wrap; }
+        .story-content, .story-image { flex: 1; min-width: 300px; }
+        .story-content h2 { text-align: left; }
+        .story-content h2::after { left: 0; transform: translateX(0); }
+        .story-content p { font-size: 1.05rem; color: #444; }
+        .story-image img { border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); max-width: 100%; height: auto;}
+        .cta-button-outline { display: inline-block; background-color: transparent; color: var(--site-primary-color); padding: 10px 22px; border-radius: 25px; font-size: 1rem; font-weight: bold; transition: background-color 0.3s ease, color 0.3s ease; border: 2px solid var(--site-primary-color); margin-top: 20px; }
+        .cta-button-outline:hover { background-color: var(--site-primary-color); color: var(--site-light-text-color); }
+
+
+        /* Testimonials Section */
+        .testimonials-section { background-color: #fff; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .testimonial-card { background-color: #f9f9f9; padding: 25px; border-radius: 8px; border-left: 5px solid var(--site-accent-color); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .testimonial-card p { font-style: italic; color: #555; margin-bottom: 15px; }
+        .testimonial-card h4 { font-size: 1rem; color: var(--site-primary-color); font-weight: bold; text-align: right; }
+
+
+        /* Contact Section */
+        .contact-section { text-align: center; background-color: var(--site-secondary-color); }
+        .contact-section p { font-size: 1.1rem; margin-bottom: 1.5rem; }
+        .social-media a { font-size: 1.8rem; color: var(--site-primary-color); margin: 0 15px; transition: color 0.3s ease; }
+        .social-media a:hover { color: var(--site-accent-color); }
+
+
+        /* Footer */
+        footer { background-color: #333; color: #f4f4f4; padding: 40px 20px 20px; text-align: center; }
+        .footer-content { display: flex; flex-wrap: wrap; justify-content: space-around; align-items: flex-start; max-width: 1100px; margin: 0 auto 30px; gap: 20px; text-align: left; }
+        .footer-logo { font-family: var(--site-heading-font); font-size: 1.8rem; font-weight: bold; color: var(--site-secondary-color); margin-bottom: 10px; flex-basis: 100%; }
+        .footer-links { list-style: none; margin-bottom: 20px; flex-basis: 150px; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a { color: #ccc; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--site-accent-color); }
+        .footer-subscribe { flex-basis: 300px; }
+        .footer-subscribe p { font-size: 0.9rem; margin-bottom: 10px; color: #ddd; }
+        #subscribe-form input[type="email"] { padding: 10px; border: none; border-radius: 5px 0 0 5px; width: calc(100% - 80px); }
+        #subscribe-form button { padding: 10px 15px; background-color: var(--site-accent-color); color: var(--site-light-text-color); border: none; border-radius: 0 5px 5px 0; cursor: pointer; transition: background-color 0.3s ease; }
+        #subscribe-form button:hover { background-color: #c5a378; }
+        .copyright { font-size: 0.9rem; color: #aaa; border-top: 1px solid #444; padding-top: 20px; margin-top: 20px; }
+
+
+        /* Animations */
+        @keyframes slideInFromLeft { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+        @keyframes slideInFromRight { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+
+
+        /* --- 問卷區域的專用樣式 --- */
+        .survey-section-wrapper {
+            background-color: #e9e9e0; /* 給問卷區一個稍微不同的背景，以便區分 */
+            padding: 50px 0; /* 上下留白 */
+        }
+        .survey-container {
+            background-color: #ffffff; /* 問卷本身的背景 */
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 90%; /* 讓寬度有一點彈性 */
+            margin: 0 auto; /* 水平居中 */
+        }
+        .survey-header h1 { /* 問卷標題 */
+            font-family: var(--site-heading-font);
+            color: var(--site-primary-color);
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        .survey-header .brand-intro { font-size: 0.95rem; color: #555; margin-bottom: 10px; line-height: 1.5; white-space: pre-line; }
+        .survey-header .form-description { font-size: 0.9rem; color: #666; margin-bottom: 30px; text-align: center; border-top: 1px solid #eee; padding-top: 15px;}
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-family: var(--site-heading-font); font-size: 1.2rem; color: var(--site-primary-color); margin-bottom: 8px; font-weight: 600;}
+        .form-group .help-text { font-size: 0.85rem; color: #777; margin-bottom: 10px; line-height: 1.4; }
+        .form-group textarea { width: 100%; padding: 12px 15px; border: 1px solid #ccc; border-radius: 6px; font-family: var(--site-font-family); font-size: 1rem; min-height: 120px; resize: vertical; transition: border-color 0.3s ease;}
+        .form-group textarea:focus { outline: none; border-color: var(--site-primary-color); box-shadow: 0 0 0 2px rgba(107, 142, 35, 0.2); }
+        .submit-button { display: block; width: 100%; padding: 12px 20px; background-color: var(--site-accent-color); color: var(--site-light-text-color); border: none; border-radius: 25px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; margin-top: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .submit-button:hover { background-color: #c5a378; transform: translateY(-2px); }
+        .confirmation-message { text-align: center; padding: 20px; background-color: #e6ffe6; color: #006400; border: 1px solid #b3ffb3; border-radius: 8px; margin-top: 20px; display: none; }
+
+
+        /* Responsive Design - 確保兩個部分都能響應 */
+        @media (max-width: 992px) {
+            /* 銷售網站響應式 */
+            .hero-section { flex-direction: column-reverse; text-align: center; padding-top: 120px; }
+            .hero-content { text-align: center; margin-top: 30px; }
+            .story-section { flex-direction: column; }
+            .story-content h2 { text-align: center; }
+            .story-content h2::after { left: 50%; transform: translateX(-50%); }
+        }
+
+        @media (max-width: 768px) {
+            /* 銷售網站導覽列響應式 */
+            nav ul { display: none; flex-direction: column; width: 100%; background-color: white; position: absolute; top: 70px; left: 0; padding: 10px 0; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+            nav ul.active { display: flex; }
+            nav ul li { margin: 10px 0; text-align: center; }
+            .menu-toggle { display: block; }
+            .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+            .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            /* 銷售網站標題響應式 */
+            .hero-content h1 { font-size: 2.4rem; }
+            .site-section h2 { font-size: 1.8rem; } /* 針對銷售網站的H2 */
+
+            /* 銷售網站 Grid 響應式 */
+            .features-grid, .products-grid, .testimonials-grid { grid-template-columns: 1fr; }
+            .footer-content { flex-direction: column; align-items: center; text-align: center; }
+            .footer-links, .footer-subscribe { flex-basis: auto; width: 100%; margin-bottom: 20px; }
+            #subscribe-form { display: flex; justify-content: center; }
+            #subscribe-form input[type="email"] { width: 60%; }
+
+            /* 問卷響應式 */
+            .survey-container { padding: 20px; width: 95%; }
+            .survey-header h1 { font-size: 1.8rem; } /* 問卷H1 */
+            .form-group label { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="#">沙青 ShaQing</a>
+            </div>
+            <ul>
+                <li><a href="#hero">首頁</a></li>
+                <li><a href="#features">品牌堅持</a></li>
+                <li><a href="#products">產品介紹</a></li>
+                <li><a href="#story">品牌故事</a></li>
+                <li><a href="#testimonials">顧客回饋</a></li>
+                <li><a href="#contact">聯絡我們</a></li>
+                <li><a href="#surveySection">參與問卷</a></li> <!-- 新增問卷導覽 -->
+            </ul>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section site-section">
+            <div class="hero-content">
+                <h1>細沙慢磨，<span class="highlight">青</span>出於藍</h1>
+                <p>專注於綠豆沙鮮奶的單品職人，給您極致濃郁的文青口感體驗。</p>
+                <a href="#products" class="cta-button">立即品嚐我們的用心</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1587080222207-76f979d271a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bXVuZyUyMGJlYW4lMjBtaWxrfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60" alt="沙青綠豆沙鮮奶冰沙">
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section site-section">
+            <h2>我們的堅持</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-leaf"></i>
+                    <h3>新鮮小農鮮奶</h3>
+                    <p>每日嚴選在地小農鮮奶，確保每一口的香醇與新鮮。</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-blender"></i>
+                    <h3>手工細沙慢磨</h3>
+                    <p>傳承職人技藝，慢磨出綠豆沙的綿密細緻口感。</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-seedling"></i>
+                    <h3>天然無添加</h3>
+                    <p>堅持使用天然食材，不添加人工香料與防腐劑。</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-mug-hot"></i>
+                    <h3>文青質感體驗</h3>
+                    <p>從視覺到味蕾，提供純粹且有質感的慢活享受。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="products-section site-section">
+            <h2>招牌飲品</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1627760239530-62601184391d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fG11bmclMjBiZWFuJTIwZHJpbmt8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="綠豆沙鮮奶冰沙">
+                    <h3>綠豆沙鮮奶冰沙</h3>
+                    <p>濃郁奶香與綿密豆沙的完美結合，清涼消暑，口感細緻滑順。</p>
+                    <a href="#" class="product-cta">了解更多</a>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1599660830451-c03209587657?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JlZW4lMjBiZWFuJTIwc2x1c2h8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="經典原味綠豆沙">
+                    <h3>經典原味綠豆沙</h3>
+                    <p>傳統工法，還原綠豆最純粹的清爽，每一口都是兒時記憶。</p>
+                    <a href="#" class="product-cta">了解更多</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story/Brand Value Section -->
+        <section id="story" class="story-section site-section">
+            <div class="story-content">
+                <h2>一杯沙青，一段慢時光</h2>
+                <p>在這個快速運轉的世界裡，我們相信，越簡單，越不簡單。「沙青」專注於綠豆沙與鮮奶的純粹結合，用職人精神細細打磨每一份細膩。我們選用在地小農的新鮮牛乳，搭配手工慢磨的綠豆沙，希望帶給您的不只是一杯飲品，更是一段能靜下心來，品味生活美好的片刻。</p>
+                <a href="#" class="cta-button-outline">探索我們的故事</a>
+            </div>
+            <div class="story-image">
+                <img src="https://images.unsplash.com/photo-1551024709-8f23eda2c5a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2FmZSUyMGFlc3RoZXRpY3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="沙青品牌氛圍">
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="testimonials-section site-section">
+            <h2>聽聽他們怎麼說</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"沙青的綠豆沙鮮奶真的不一樣！口感非常細緻，喝得出來是用心製作的，甜度也剛剛好，是我喝過最好喝的！"</p>
+                    <h4>- 林映青，平面設計師</h4>
+                </div>
+                <div class="testimonial-card">
+                    <p>"工作壓力大的時候，來一杯沙青的原味綠豆沙，瞬間覺得清爽解膩。包裝也很有質感，符合我的簡約美學。"</p>
+                    <h4>- 陳阿浩，行銷經理</h4>
+                </div>
+                <div class="testimonial-card">
+                    <p>"第一次喝到這麼濃郁又順口的綠豆沙牛奶，小農鮮奶的味道真的很香醇，會想推薦給所有朋友！"</p>
+                    <h4>- 王小美，大學生</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact/Location Section -->
+        <section id="contact" class="contact-section site-section">
+            <h2>找到我們</h2>
+            <p>期待在「沙青」與您相遇，共享一杯純粹的美好。</p>
+            <p>地址：[您的店鋪地址，例如：台中市西區文青路123號]</p>
+            <p>電話：[您的聯絡電話]</p>
+            <div class="social-media">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Line"><i class="fab fa-line"></i></a>
+            </div>
+        </section>
+
+        <!-- Survey Section Wrapper -->
+        <section id="surveySection" class="survey-section-wrapper">
+            <div class="survey-container">
+                <div class="survey-header">
+                    <h1>「沙青」品牌受眾深度訪談問卷</h1>
+                    <p class="brand-intro">
+您好！我們是「沙青」，一個專注於綠豆沙鮮奶冰沙與綠豆沙的單品職人品牌。
+「沙青」強調細沙慢磨的手工技藝與新鮮小農鮮奶，希望能傳遞文青美學與極致濃郁的口感體驗。
+                    </p>
+                    <p class="form-description">
+這份問卷希望能更深入了解您的生活與想法，以提供更貼近您需求的產品與體驗。您的回答對我們非常重要，感謝您的寶貴時間！
+                    </p>
+                </div>
+
+                <form id="shaQingSurveyForm">
+                    <div class="form-group">
+                        <label for="q1">1. 日常小確幸探尋</label>
+                        <p class="help-text">在忙碌的一天結束後，或是在悠閒的週末，通常是什麼樣的「小事物」或「片刻」能讓您感到特別放鬆、愉悅或被療癒？能否分享一個最近讓您感到「啊，真好」的瞬間？</p>
+                        <textarea id="q1" name="q1_little_joys" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q2">2. 飲食偏好與價值</label>
+                        <p class="help-text">當您選擇日常飲品或點心時，除了口味本身，您還會特別在意哪些面向？（例如：食材來源、製作方式、健康價值、包裝美感、品牌故事等）哪些元素對您來說是「必要條件」，哪些是「加分項」？</p>
+                        <textarea id="q2" name="q2_food_preference" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q3">3. 生活美學的體現</label>
+                        <p class="help-text">您如何定義自己的「生活美學」？這種美學觀是如何體現在您的日常選擇中，比如您喜歡的空間、物品、衣著風格，或是您追蹤的社群帳號類型？</p>
+                        <textarea id="q3" name="q3_life_aesthetics" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q4">4. 對「職人精神」的看法</label>
+                        <p class="help-text">「沙青」強調「單品職人」與「手工技藝」。您對「職人精神」有什麼樣的理解或感受？在您的消費經驗中，是否有因為感受到這種精神而特別被打動的品牌或店家？</p>
+                        <textarea id="q4" name="q4_craftsmanship_spirit" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q5">5. 尋找「慢」的時刻</label>
+                        <p class="help-text">在現代快節奏的生活中，您會如何刻意為自己創造「慢下來」的時刻？這些時刻對您而言有什麼樣的意義？</p>
+                        <textarea id="q5" name="q5_slow_moments" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q6">6. 品牌故事與連結</label>
+                        <p class="help-text">對您而言，一個飲品品牌的故事或理念，在多大程度上會影響您的購買意願和品牌忠誠度？什麼樣的故事或價值觀最能觸動您？</p>
+                        <textarea id="q6" name="q6_brand_story_connection" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q7">7. 對「純粹」與「簡單」的追求</label>
+                        <p class="help-text">「沙青」品牌理念中提到「越簡單，越不簡單」。在飲食或生活其他方面，您是否也有類似的追求？能否分享您對「純粹」和「簡單即美好」的看法？</p>
+                        <textarea id="q7" name="q7_pure_simple_pursuit" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q8">8. 社群參與及資訊獲取</label>
+                        <p class="help-text">您平時喜歡在哪些社群平台瀏覽內容？什麼類型的貼文或分享最能吸引您的注意，甚至讓您願意互動或分享？</p>
+                        <textarea id="q8" name="q8_social_media_info" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q9">9. 消費體驗的期待</label>
+                        <p class="help-text">當您光顧一家像「沙青」這樣強調質感和體驗的飲品店時，除了產品本身，您對整體的消費體驗（如店面氛圍、服務、包裝等）有哪些期待？</p>
+                        <textarea id="q9" name="q9_consumer_experience_expectation" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q10">10. 理想的飲品伴侶</label>
+                        <p class="help-text">如果「沙青」的綠豆沙鮮奶冰沙是您生活中的一位「飲品伴侶」，您希望它在什麼樣的情境下陪伴您？它能為您帶來什麼樣的感受或支持？</p>
+                        <textarea id="q10" name="q10_ideal_drink_companion" rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">提交問卷</button>
+                </form>
+                <div id="confirmationMessage" class="confirmation-message">
+                    感謝您的填寫！您的寶貴意見已成功送出。
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">沙青 ShaQing</div>
+            <ul class="footer-links">
+                <li><a href="#">隱私權政策</a></li>
+                <li><a href="#">服務條款</a></li>
+                <li><a href="#">常見問題</a></li>
+            </ul>
+            <div class="footer-subscribe">
+                <p>訂閱電子報，獲取最新優惠與品牌故事：</p>
+                <form id="subscribe-form">
+                    <input type="email" placeholder="請輸入您的Email" required>
+                    <button type="submit">訂閱</button>
+                </form>
+            </div>
+        </div>
+        <p class="copyright">© 2024 沙青 ShaQing. All Rights Reserved. 細沙慢磨，青出於藍。</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- 銷售網站 JavaScript ---
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelector('nav ul');
+
+            mobileMenu.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                    }
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = document.querySelector('header').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    }
+                });
+            });
+
+            const siteSections = document.querySelectorAll('main section.site-section, main section.survey-section-wrapper'); // 包含問卷區的wrapper
+            const navLi = document.querySelectorAll('nav ul li a');
+
+            window.addEventListener('scroll', ()=> {
+                let current = '';
+                const headerHeight = document.querySelector('header').offsetHeight;
+
+                siteSections.forEach( section => {
+                    const sectionTop = section.offsetTop - headerHeight - 50;
+                    if (pageYOffset >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLi.forEach( a => {
+                    a.classList.remove('active');
+                    if (a.getAttribute('href').includes(current) && current !== '') {
+                        a.classList.add('active');
+                    }
+                });
+                if (current === '' || current === 'hero') {
+                    const heroLink = document.querySelector('nav ul li a[href="#hero"]');
+                    if (heroLink) heroLink.classList.add('active');
+                }
+            });
+
+            const subscribeForm = document.getElementById('subscribe-form');
+            if (subscribeForm) {
+                subscribeForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('感謝您的訂閱！(銷售網站)'); // 區分是哪個訂閱
+                    this.reset();
+                });
+            }
+
+            // --- 問卷 JavaScript ---
+            const surveyForm = document.getElementById('shaQingSurveyForm');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+
+            if (surveyForm) {
+                surveyForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    confirmationMessage.style.display = 'block';
+                    surveyForm.reset();
+                    confirmationMessage.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
